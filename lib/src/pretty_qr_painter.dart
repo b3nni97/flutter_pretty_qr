@@ -11,6 +11,7 @@ class PrettyQrCodePainter extends CustomPainter {
   ui.Image? image;
   late QrCode _qrCode;
   int deletePixelCount = 0;
+  final double radius;
 
   PrettyQrCodePainter({
     required this.data,
@@ -19,6 +20,7 @@ class PrettyQrCodePainter extends CustomPainter {
     this.roundEdges = false,
     this.image,
     int? typeNumber,
+    this.radius = 90,
   }) {
     if (typeNumber == null) {
       _qrCode = QrCode.fromData(
@@ -57,7 +59,7 @@ class PrettyQrCodePainter extends CustomPainter {
               size.height / 3));
 
       canvas.saveLayer(dst, Paint());
-      canvas.clipRRect(RRect.fromRectXY(dst, 90, 90));
+      canvas.clipRRect(RRect.fromRectXY(dst, radius, radius));
 
       canvas.drawImageRect(image!, src, dst, Paint());
       canvas.restore();

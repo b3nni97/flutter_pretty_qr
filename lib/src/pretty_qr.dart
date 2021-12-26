@@ -28,6 +28,8 @@ class PrettyQr extends StatefulWidget {
 
   final ImageProvider? image;
 
+  final double radius;
+
   PrettyQr(
       {Key? key,
       this.size = 100,
@@ -36,7 +38,8 @@ class PrettyQr extends StatefulWidget {
       this.errorCorrectLevel = QrErrorCorrectLevel.M,
       this.roundEdges = false,
       this.typeNumber,
-      this.image})
+      this.image,
+      this.radius = 90})
       : super(key: key);
 
   @override
@@ -65,11 +68,13 @@ class _PrettyQrState extends State<PrettyQr> {
         ? CustomPaint(
             size: Size(widget.size, widget.size),
             painter: PrettyQrCodePainter(
-                data: widget.data,
-                errorCorrectLevel: widget.errorCorrectLevel,
-                elementColor: widget.elementColor,
-                roundEdges: widget.roundEdges,
-                typeNumber: widget.typeNumber),
+              data: widget.data,
+              errorCorrectLevel: widget.errorCorrectLevel,
+              elementColor: widget.elementColor,
+              roundEdges: widget.roundEdges,
+              typeNumber: widget.typeNumber,
+              radius: widget.radius,
+            ),
           )
         : FutureBuilder(
             future: _loadImage(context),
@@ -79,12 +84,14 @@ class _PrettyQrState extends State<PrettyQr> {
                   child: CustomPaint(
                     size: Size(widget.size, widget.size),
                     painter: PrettyQrCodePainter(
-                        image: snapshot.data,
-                        data: widget.data,
-                        errorCorrectLevel: widget.errorCorrectLevel,
-                        elementColor: widget.elementColor,
-                        roundEdges: widget.roundEdges,
-                        typeNumber: widget.typeNumber),
+                      image: snapshot.data,
+                      data: widget.data,
+                      errorCorrectLevel: widget.errorCorrectLevel,
+                      elementColor: widget.elementColor,
+                      roundEdges: widget.roundEdges,
+                      typeNumber: widget.typeNumber,
+                      radius: widget.radius,
+                    ),
                   ),
                 );
               } else {
