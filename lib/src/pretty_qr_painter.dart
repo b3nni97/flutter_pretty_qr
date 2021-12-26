@@ -12,17 +12,17 @@ class PrettyQrCodePainter extends CustomPainter {
   late QrCode _qrCode;
   int deletePixelCount = 0;
 
-  PrettyQrCodePainter(
-      {required this.data,
-      this.elementColor = Colors.black,
-      this.errorCorrectLevel = QrErrorCorrectLevel.M,
-      this.roundEdges = false,
-      this.image,
-      int? typeNumber,
+  PrettyQrCodePainter({
+    required this.data,
+    this.elementColor = Colors.black,
+    this.errorCorrectLevel = QrErrorCorrectLevel.M,
+    this.roundEdges = false,
+    this.image,
+    int? typeNumber,
   }) {
     if (typeNumber == null) {
       _qrCode = QrCode.fromData(
-        data: data, 
+        data: data,
         errorCorrectLevel: errorCorrectLevel,
       );
     } else {
@@ -56,7 +56,11 @@ class PrettyQrCodePainter extends CustomPainter {
           Rect.fromLTWH(size.width / 3, size.height / 3, size.height / 3,
               size.height / 3));
 
+      canvas.saveLayer(dst, Paint());
+      canvas.clipRRect(RRect.fromRectXY(dst, 90, 90));
+
       canvas.drawImageRect(image!, src, dst, Paint());
+      canvas.restore();
     }
 
     roundEdges ? _paintRound(canvas, size) : _paintDefault(canvas, size);
