@@ -42,7 +42,7 @@ class PrettyQr extends StatefulWidget {
     this.typeNumber,
     this.image,
     this.radius = 90,
-    this.fit = BoxFit.contain,
+    this.fit = BoxFit.cover,
   }) : super(key: key);
 
   @override

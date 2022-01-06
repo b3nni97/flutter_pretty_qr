@@ -22,7 +22,7 @@ class PrettyQrCodePainter extends CustomPainter {
     this.image,
     int? typeNumber,
     this.radius = 90,
-    this.fit = BoxFit.contain,
+    this.fit = BoxFit.cover,
   }) {
     if (typeNumber == null) {
       _qrCode = QrCode.fromData(
@@ -63,24 +63,12 @@ class PrettyQrCodePainter extends CustomPainter {
       canvas.saveLayer(dst, Paint());
       canvas.clipRRect(RRect.fromRectXY(dst, radius, radius));
 
-      paintImage(image!, dst, canvas, Paint(), fit);
+      paintImage(canvas: canvas, rect: src, image: image!, fit: fit);
 
       canvas.restore();
     }
 
     roundEdges ? _paintRound(canvas, size) : _paintDefault(canvas, size);
-  }
-
-  void paintImage(
-      ui.Image image, Rect outputRect, Canvas canvas, Paint paint, BoxFit fit) {
-    final Size imageSize =
-        Size(image.width.toDouble(), image.height.toDouble());
-    final FittedSizes sizes = applyBoxFit(fit, imageSize, outputRect.size);
-    final Rect inputSubrect =
-        Alignment.center.inscribe(sizes.source, Offset.zero & imageSize);
-    final Rect outputSubrect =
-        Alignment.center.inscribe(sizes.destination, outputRect);
-    canvas.drawImageRect(image, inputSubrect, outputSubrect, paint);
   }
 
   void _paintRound(Canvas canvas, Size size) {
