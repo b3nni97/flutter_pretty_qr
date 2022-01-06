@@ -63,7 +63,7 @@ class PrettyQrCodePainter extends CustomPainter {
       canvas.saveLayer(dst, Paint());
       canvas.clipRRect(RRect.fromRectXY(dst, radius, radius));
 
-      paintImage(canvas: canvas, rect: src, image: image!, fit: fit);
+      paintImage(canvas: canvas, rect: dst, image: image!, fit: fit);
 
       canvas.restore();
     }
