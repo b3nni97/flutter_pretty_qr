@@ -30,17 +30,20 @@ class PrettyQr extends StatefulWidget {
 
   final double radius;
 
-  PrettyQr(
-      {Key? key,
-      this.size = 100,
-      required this.data,
-      this.elementColor = Colors.black,
-      this.errorCorrectLevel = QrErrorCorrectLevel.M,
-      this.roundEdges = false,
-      this.typeNumber,
-      this.image,
-      this.radius = 90})
-      : super(key: key);
+  final BoxFit fit;
+
+  PrettyQr({
+    Key? key,
+    this.size = 100,
+    required this.data,
+    this.elementColor = Colors.black,
+    this.errorCorrectLevel = QrErrorCorrectLevel.M,
+    this.roundEdges = false,
+    this.typeNumber,
+    this.image,
+    this.radius = 90,
+    this.fit = BoxFit.contain,
+  }) : super(key: key);
 
   @override
   _PrettyQrState createState() => _PrettyQrState();
@@ -74,6 +77,7 @@ class _PrettyQrState extends State<PrettyQr> {
               roundEdges: widget.roundEdges,
               typeNumber: widget.typeNumber,
               radius: widget.radius,
+              fit: widget.fit,
             ),
           )
         : FutureBuilder(
