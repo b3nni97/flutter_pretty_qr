@@ -117,6 +117,7 @@ extension PrettyQrDecorationThemeExtension on PrettyQrDecoration? {
       shape: decoration.shape,
       image: decoration.image,
       background: decoration.background,
+      imageBorderColor: decoration.imageBorderColor,
     );
   }
 }

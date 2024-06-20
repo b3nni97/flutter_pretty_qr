@@ -59,13 +59,23 @@ class PrettyQrPainter {
         width: size.width * imageScale,
         height: size.height * imageScale,
       );
+      final circleCenter = imageScaledRect.center;
+      // Radius based on the width (assuming a square for the image)
+      // Add 6 pixels for a padding.
+      final circleRadius = (imageScaledRect.width / 2) + 6;
 
       // clear space for the embedded image
       if (image.position == PrettyQrDecorationImagePosition.embedded) {
         for (final module in context.matrix) {
           final moduleRect = module.resolveRect(context);
-          if (imageScaledRect.overlaps(moduleRect)) {
-            context.matrix.removeDarkAt(module.x, module.y);
+          final moduleCenter = moduleRect.center;
+
+          // Check if the center of the module is within the circles
+          if ((moduleCenter.dx - circleCenter.dx).abs() < circleRadius &&
+              (moduleCenter.dy - circleCenter.dy).abs() < circleRadius) {
+            if ((moduleCenter - circleCenter).distance < circleRadius) {
+              context.matrix.removeDarkAt(module.x, module.y);
+            }
           }
         }
       }
@@ -80,10 +90,24 @@ class PrettyQrPainter {
       final imageCroppedRect = imagePadding.deflateRect(imageScaledRect);
 
       _decorationImagePainter ??= image.createPainter(onChanged);
+
+      // Make the image path round.
+      Path path = Path()..addOval(imageCroppedRect);
+      // Draw a border around the image.
+      if (_decorationImagePainter != null &&
+          decoration.imageBorderColor != null) {
+        final paint = Paint()
+          ..color = decoration.imageBorderColor!
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1;
+
+        context.canvas.drawPath(path, paint);
+      }
+
       _decorationImagePainter?.paint(
         context.canvas,
         imageCroppedRect,
-        null,
+        path,
         configuration.copyWith(size: imageCroppedRect.size),
       );
     }

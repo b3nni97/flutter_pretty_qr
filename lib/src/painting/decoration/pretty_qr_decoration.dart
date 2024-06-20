@@ -26,6 +26,10 @@ class PrettyQrDecoration with Diagnosticable {
   @nonVirtual
   final PrettyQrDecorationImage? image;
 
+  /// The color of the border around the image
+  @nonVirtual
+  final Color? imageBorderColor;
+
   /// The default QR code shape.
   ///
   /// This value is used by default to paint QR codes.
@@ -42,6 +46,7 @@ class PrettyQrDecoration with Diagnosticable {
     this.shape = kDefaultDecorationShape,
     this.background,
     this.image,
+    this.imageBorderColor,
   });
 
   @override
@@ -57,11 +62,13 @@ class PrettyQrDecoration with Diagnosticable {
     final PrettyQrShape? shape,
     final Color? background,
     final PrettyQrDecorationImage? image,
+    final Color? imageBorderColor,
   }) {
     return PrettyQrDecoration(
       shape: shape ?? this.shape,
       background: background ?? this.background,
       image: image ?? this.image,
+      imageBorderColor: imageBorderColor ?? this.imageBorderColor,
     );
   }
 
@@ -93,6 +100,7 @@ class PrettyQrDecoration with Diagnosticable {
       shape: PrettyQrShape.lerp(a?.shape, b?.shape, t)!,
       background: PrettyQrBrush.lerp(a?.background, b?.background, t),
       image: PrettyQrDecorationImage.lerp(a?.image, b?.image, t),
+      imageBorderColor: Color.lerp(a?.imageBorderColor, b?.imageBorderColor, t),
     );
   }
 
@@ -107,7 +115,7 @@ class PrettyQrDecoration with Diagnosticable {
 
   @override
   int get hashCode {
-    return Object.hash(runtimeType, shape, background, image);
+    return Object.hash(runtimeType, shape, background, image, imageBorderColor);
   }
 
   @override
@@ -118,6 +126,7 @@ class PrettyQrDecoration with Diagnosticable {
     return other is PrettyQrDecoration &&
         other.shape == shape &&
         other.background == background &&
-        other.image == image;
+        other.image == image &&
+        other.imageBorderColor == imageBorderColor;
   }
 }
